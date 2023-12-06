@@ -37,19 +37,27 @@ export default function FloorButton({ floor }: { floor: string }) {
             "absolute inset-0"
           )}
         >
-          <motion.linearGradient
-            id={`${floor}_gradient`}
-            animate={{
-              rotate: 180,
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity, // Set repeat to Infinity for continuous looping
-            }}
-          >
-            <stop offset="50%" stopColor="#A6EA99" />
-            <stop offset="50%" stopColor="red" />
-          </motion.linearGradient>
+          <defs>
+            <linearGradient id={`${floor}_gradient`}>
+              <stop offset="0%" stop-color="#7A5FFF">
+                <animate
+                  attributeName="stop-color"
+                  values="#7A5FFF; #01FF89; #7A5FFF"
+                  dur="2s"
+                  repeatCount="indefinite"
+                />
+              </stop>
+
+              <stop offset="100%" stop-color="#01FF89">
+                <animate
+                  attributeName="stop-color"
+                  values="#01FF89; #7A5FFF; #01FF89"
+                  dur="2s"
+                  repeatCount="indefinite"
+                />
+              </stop>
+            </linearGradient>
+          </defs>
 
           <motion.rect
             x="0"
