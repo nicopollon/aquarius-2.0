@@ -47,6 +47,7 @@ const useAquariusStore = create<Store>((set, get) => {
       } = get()
 
       if (socket) {
+        console.log("Connected to:", "http://localhost:3001")
         // Display error message if socket is already connected
       } else {
         console.log("Connecting to socket", "http://localhost:3001")

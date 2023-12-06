@@ -52,7 +52,7 @@ export default function FloorNumber() {
           clearInterval(interval)
           console.log("clear interval")
         }
-      }, 1500)
+      }, 5000)
     }
   }, [demo, selectedFloors])
 
