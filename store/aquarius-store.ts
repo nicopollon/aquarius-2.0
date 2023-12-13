@@ -7,7 +7,9 @@ export type AquariusView = {
   floorNumber: string
   direction: "UP" | "DOWN" | "OFF"
   demo: boolean
-  floors: string[]
+  floors: { name: string; value: string }[]
+  lowestFloor: number
+  topFloor: number
 }
 
 export type SocketBroadcastMessage = {
@@ -18,25 +20,23 @@ export type SocketBroadcastMessage = {
 
 type Store = {
   socket: null | Socket
+  aquariusView: AquariusView | null
   connect: () => void
   disconnect: () => void
-  aquariusView: AquariusView
   setSelectedFloors: (selectedFloors: string) => void
   removeSelectedFloors: (selectedFloors: string) => void
-  setFloorNumber: (floorNumber: string) => void
+  setFloorNumber: (floor: string) => void
   setArrowDirection: (arrowDirection: "UP" | "DOWN" | "OFF") => void
-}
-const initAquarius: AquariusView = {
-  floorNumber: "0",
-  selectedFloors: [],
-  direction: "UP",
-  demo: true,
-  floors: ["0", "1", "2", "3"],
+  setAquariusView: (aquariusView: AquariusView) => void
 }
 
 const useAquariusStore = create<Store>((set, get) => {
   return {
     socket: null,
+    aquariusView: null,
+    setAquariusView(aquariusView) {
+      set({ aquariusView })
+    },
     connect: () => {
       const {
         socket,
@@ -65,6 +65,7 @@ const useAquariusStore = create<Store>((set, get) => {
             set({ socket: null })
           })
 
+        //ADD SOCKET EVENTS
         socket.on("floor-selected", (selectedFloor: string) => {
           setSelectedFloors(selectedFloor)
         })
@@ -82,7 +83,6 @@ const useAquariusStore = create<Store>((set, get) => {
         )
       }
     },
-
     disconnect: () => {
       const { socket } = get()
       if (socket) {
@@ -92,9 +92,9 @@ const useAquariusStore = create<Store>((set, get) => {
         console.error("Socket not connected")
       }
     },
-    aquariusView: initAquarius,
     setSelectedFloors: (selectedFloor: string) => {
       const { aquariusView } = get()
+      if (!aquariusView) return
       const floors = aquariusView.selectedFloors
       if (!floors.includes(selectedFloor)) {
         set({
@@ -107,6 +107,8 @@ const useAquariusStore = create<Store>((set, get) => {
     },
     removeSelectedFloors: (selectedFloor: string) => {
       const { aquariusView } = get()
+      if (!aquariusView) return
+
       const { selectedFloors } = aquariusView
 
       if (selectedFloors.includes(selectedFloor)) {
@@ -123,11 +125,14 @@ const useAquariusStore = create<Store>((set, get) => {
     },
     setFloorNumber(floorNumber) {
       const { aquariusView } = get()
+      if (!aquariusView) return
+
       set({ aquariusView: { ...aquariusView, floorNumber: floorNumber } })
     },
-
     setArrowDirection(arrowDirection) {
       const { aquariusView } = get()
+      if (!aquariusView) return
+
       set({ aquariusView: { ...aquariusView, direction: arrowDirection } })
     },
   }

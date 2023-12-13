@@ -1,0 +1,34 @@
+{
+  "floorNumber": "0",
+  "selectedFloors": [],
+  "direction": "UP",
+  "demo": true,
+  "lowestFloor": 0,
+  "topFloor": 5,
+  "floors": [
+    {
+      "name": "NP",
+      "value": "0"
+    },
+    {
+      "name": "LS",
+      "value": "1"
+    },
+    {
+      "name": "2",
+      "value": "2"
+    },
+    {
+      "name": "3",
+      "value": "3"
+    },
+    {
+      "name": "4",
+      "value": "4"
+    },
+    {
+      "name": "5",
+      "value": "5"
+    }
+  ]
+}
